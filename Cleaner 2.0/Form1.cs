@@ -20,6 +20,7 @@ namespace Cleaner_2._0
         private void button1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("порабтолат");
+            folderBrowserDialog1.ShowDialog();
         }
     }
 }
