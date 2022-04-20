@@ -13,24 +13,37 @@ namespace Cleaner_2._0
 {
     public partial class Form1 : Form
     {
+       
         public Form1()
-        {
-            InitializeComponent();
+        { 
+          InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-              
+            folderBrowserDialog1.ShowDialog();
+            DirectoryInfo dinfo = new DirectoryInfo(folderBrowserDialog1.SelectedPath);
+            long Size = GetDirectorySize(dinfo);
+            if (dinfo.GetDirectories("*", SearchOption.AllDirectories).Length != 0)
+            {
+                for (int i = 0; i < dinfo.GetDirectories("*", SearchOption.AllDirectories).Length; i++)
+                {
+                    Size = GetDirectorySize(dinfo.GetDirectories("*", SearchOption.AllDirectories)[i]);
+                    dataGridView1.Rows.Add(dinfo.GetDirectories("*", SearchOption.AllDirectories)[i].Name, Size.ToString());
+                }
+            }
+            else
+            {
+                dataGridView1.Rows.Add(dinfo.Name, Size);
+            }
         }
 
-        private long GetDirectorySize(string path)
+        private long GetDirectorySize(DirectoryInfo dinfo)
         {
             long mass = 0;
-            folderBrowserDialog1.ShowDialog();
-
-            for (int i = 0; i < SearchDirectory(path).Length + SearchFile(path).Length; i++)
+            for (int i = 0; i < Directory.GetFiles(dinfo.FullName).Length; i++)
             {
-                mass += SearchFile(path)[i].Length;
+                mass += new FileInfo(Directory.GetFiles(dinfo.FullName)[i]).Length;
             }
             return mass;
         }
@@ -46,6 +59,11 @@ namespace Cleaner_2._0
         }
 
         private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
+        {
+
+        }
+
+        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
