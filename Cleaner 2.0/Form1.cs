@@ -25,7 +25,7 @@ namespace Cleaner_2._0
 
         private long GetDirectorySize(string path)
         {
-            long mass = 0;
+            long mass = 0.0;
             folderBrowserDialog1.ShowDialog();
 
             for (int i = 0; i < SearchDirectory(path).Length + SearchFile(path).Length; i++)
